@@ -12,7 +12,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: 소스파일을 docker 이미지로 build한다
-        run: docker build -t skadlf915/my-fastip-whoami:latest
+        run: docker build -t skadlf915/my-fastip-whoami:latest .
 
       - name: 도커hub에 로그인 한다.
         run: docker login -u skadlf915 -p ${{ secrets.DOCKER_PASS }}

@@ -11,16 +11,18 @@ jobs:
       - name: 원격저장소에서 소스를 복사
         uses: actions/checkout@v3
 
+      - name: 소스파일을 docker 이미지로 build한다
+        run: docker build -t skadlf915/my-fastip-whoami:latest
 
-      - name: 이미지 빌드 단계
-        run: |
-          echo '이미지 빌드 1단계'
-          echo '이미지 빌드 2단계'
-          ls -al
+      - name: 도커hub에 로그인 한다.
+        run: docker login -u skadlf915 -p ${{ secrets.DOCKER_PASS }}
 
-  deploy:
-    needs: build-docker-image
-    name: deploy
-    runs-on : ubuntu-latest
-    steps:
-      - run: echo '이미지 배포 및 실행'
+      - name: 생성된 이미지를 도커hub에 push 한다.
+        run: docker push skadlf915/my-fastip-whoami:latest
+
+deploy:
+  needs: build-docker-image
+  name: deploy
+  runs-on : ubuntu-latest
+  steps:
+    - run: echo '이미지 배포 및 실행'
